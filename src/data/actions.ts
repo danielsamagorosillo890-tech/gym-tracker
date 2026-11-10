@@ -1,6 +1,7 @@
 import { db } from './db';
 import { fixSwap } from '../logic/swap';
-import { DEFAULT_SETTINGS, type Exercise, type SetLog, type Settings, type Variant } from './types';
+import { copyVariant, moveSlot, newSlotId, slugify } from '../logic/routine';
+import { DEFAULT_SETTINGS, type Exercise, type SetLog, type Settings, type Slot, type Variant } from './types';
 import { requestPersist } from '../storage';
 
 export async function getSettings(): Promise<Settings> {
@@ -208,4 +209,65 @@ export async function updateExercise(id: string, patch: Partial<Exercise>): Prom
 export async function wipeAll(): Promise<void> {
   await db.delete();
   await db.open();
+}
+
+// ---- Routine editing (Phase 1b) ----
+
+export async function saveSlot(slot: Slot): Promise<void> {
+  await db.slots.put(slot);
+}
+
+export async function deleteSlot(slotId: string): Promise<void> {
+  // History keeps its slotId and exerciseId, so past sets stay in Progreso.
+  await db.slots.delete(slotId);
+}
+
+export async function moveSlotInVariant(dayId: string, slotId: string, dir: -1 | 1, variant: Variant): Promise<void> {
+  await db.transaction('rw', db.slots, async () => {
+    const daySlots = await db.slots.where({ dayId }).toArray();
+    const changed = moveSlot(daySlots, slotId, dir, variant);
+    if (changed.length) await db.slots.bulkPut(changed);
+  });
+}
+
+export async function copyVariantSlots(dayId: string, from: Variant, to: Variant): Promise<void> {
+  await db.transaction('rw', db.slots, async () => {
+    const all = await db.slots.toArray();
+    const daySlots = all.filter((s) => s.dayId === dayId);
+    const taken = [...all];
+    const copies = copyVariant(daySlots, from, to, () => {
+      const id = newSlotId(dayId, taken);
+      taken.push({ ...daySlots[0], id });
+      return id;
+    });
+    await db.slots.bulkAdd(copies);
+  });
+}
+
+/** Creates a new catalog exercise (id from its name) or updates an existing one. */
+export async function saveExercise(ex: Omit<Exercise, 'id'> & { id?: string }): Promise<string> {
+  if (ex.id) {
+    await db.exercises.put(ex as Exercise);
+    return ex.id;
+  }
+  const ids = new Set((await db.exercises.toCollection().primaryKeys()) as string[]);
+  const id = slugify(ex.name, ids);
+  await db.exercises.add({ ...ex, id } as Exercise);
+  return id;
+}
+
+export async function renameDay(dayId: string, name: string): Promise<void> {
+  await db.days.update(dayId, { name });
+}
+
+/** Moves a day earlier/later in the cycle. */
+export async function moveDay(dayId: string, dir: -1 | 1): Promise<void> {
+  await db.transaction('rw', db.days, async () => {
+    const days = await db.days.orderBy('order').toArray();
+    const i = days.findIndex((d) => d.id === dayId);
+    const j = i + dir;
+    if (i < 0 || j < 0 || j >= days.length) return;
+    [days[i], days[j]] = [days[j], days[i]];
+    await db.days.bulkPut(days.map((d, k) => ({ ...d, order: k })));
+  });
 }

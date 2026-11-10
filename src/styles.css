@@ -1125,3 +1125,254 @@ input.num:disabled {
   line-height: 1.25;
   padding: 10px 16px;
 }
+
+/* Routine editor (Phase 1b) */
+.roomy {
+  gap: 16px;
+}
+
+.segmented.full {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.r-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.r-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.r-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.r-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.r-row {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.r-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 64px;
+  padding: 12px 14px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.r-main strong {
+  font-size: 1.02rem;
+}
+
+.r-badges {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.r-badges .tag {
+  margin-left: 0;
+}
+
+.r-sort {
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+}
+
+.r-sort .icon-btn {
+  min-height: 40px;
+}
+
+.r-sort .icon-btn:disabled {
+  opacity: 0.25;
+}
+
+.add-btn {
+  align-self: flex-start;
+}
+
+.tbd {
+  border-style: dashed;
+  border-width: 2px;
+}
+
+.muted.small {
+  font-size: 0.8rem;
+}
+
+.text-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 12px;
+  font-size: 1rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip-group button {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.chip-group button.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.chip-group.compact button {
+  min-height: 36px;
+  font-size: 0.8rem;
+  padding: 0 10px;
+}
+
+.stepper {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  gap: 6px;
+  max-width: 260px;
+}
+
+.stepper button {
+  min-height: 52px;
+  border: none;
+  border-radius: 12px;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.stepper input.num {
+  min-height: 52px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.two-col .stepper {
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+}
+
+.rangenote {
+  margin-top: -4px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  cursor: pointer;
+}
+
+.toggle-row span {
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle-row input {
+  width: 28px;
+  height: 28px;
+  accent-color: var(--accent);
+  flex: none;
+}
+
+.picked {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-2);
+}
+
+.picked strong {
+  font-size: 1.1rem;
+}
+
+.picked-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.picked-actions .btn.secondary {
+  background: var(--surface);
+}
+
+.alt-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.alt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 12px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: 0.92rem;
+}
+
+.sheet-body {
+  gap: 16px;
+}
+
+.section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 8px;
+}

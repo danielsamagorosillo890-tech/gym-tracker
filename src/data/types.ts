@@ -79,6 +79,8 @@ export interface Session {
   note: string;
   /** "Solo hoy" swaps: slotId → exerciseId. */
   overrides: Record<string, string>;
+  /** Deload session: lighter work, ignored for prefill, progression and charts. */
+  deload?: boolean;
 }
 
 export interface SetLog {
@@ -114,6 +116,8 @@ export interface Settings {
   notificationsAsked: boolean;
   /** First time the app stored real data; anchors the backup reminder. */
   firstDataAt: number | null;
+  /** End of the active deload week (epoch ms), or null. */
+  deloadUntil?: number | null;
 }
 
 export interface Backup {
@@ -149,4 +153,21 @@ export interface UserMedia {
   mime: string;
   blob: Blob;
   createdAt: number;
+}
+
+/** One body weight per calendar day (YYYY-MM-DD, local). */
+export interface BodyWeight {
+  id: number;
+  date: string;
+  kg: number;
+}
+
+/** Body measurements in cm; any field may be missing. One entry per day. */
+export interface Measurement {
+  id: number;
+  date: string;
+  waist: number | null;
+  chest: number | null;
+  arm: number | null;
+  thigh: number | null;
 }

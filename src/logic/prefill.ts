@@ -28,7 +28,7 @@ function lastSessionSets(
   excludeSessionId?: number,
 ): SetLog[] {
   const finished = new Map(
-    sessions.filter((s) => s.status === 'finished' && s.id !== excludeSessionId).map((s) => [s.id, s]),
+    sessions.filter((s) => s.status === 'finished' && !s.deload && s.id !== excludeSessionId).map((s) => [s.id, s]),
   );
   let best: Session | null = null;
   for (const l of completedWork(logs)) {

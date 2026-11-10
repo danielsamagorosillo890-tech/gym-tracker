@@ -11,6 +11,8 @@ import {
   type Slot,
   type WarmupCheck,
   type UserMedia,
+  type BodyWeight,
+  type Measurement,
 } from './types';
 
 export type GymDB = Dexie & {
@@ -23,6 +25,8 @@ export type GymDB = Dexie & {
   settings: EntityTable<Settings, 'id'>;
   backups: EntityTable<Backup, 'id'>;
   userMedia: EntityTable<UserMedia, 'id'>;
+  bodyWeights: EntityTable<BodyWeight, 'id'>;
+  measurements: EntityTable<Measurement, 'id'>;
 };
 
 /** Tables included in export/import, in restore order. */
@@ -34,7 +38,11 @@ export const DATA_TABLES = [
   'setLogs',
   'warmupChecks',
   'settings',
+  'bodyWeights',
+  'measurements',
 ] as const;
+/** Tables added after backup schema v1; missing in old backups means empty. */
+export const LATER_TABLES: readonly DataTable[] = ['bodyWeights', 'measurements'];
 export type DataTable = (typeof DATA_TABLES)[number];
 
 export function createDB(name = 'gym-tracker'): GymDB {
@@ -54,6 +62,8 @@ export function createDB(name = 'gym-tracker'): GymDB {
   });
   // v3: photos/videos the user uploads (not part of the JSON backup).
   db.version(3).stores({ userMedia: '++id, exerciseId' });
+  // v4: body weight and measurements, one entry per day.
+  db.version(4).stores({ bodyWeights: '++id, &date', measurements: '++id, &date' });
   db.on('populate', (tx) => {
     tx.table('exercises').bulkAdd(seedExercises());
     tx.table('days').bulkAdd(SEED_DAYS);

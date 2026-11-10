@@ -3,7 +3,8 @@ import { deleteSetRow, fillSets, upsertSet, type SetValues } from '../data/actio
 import type { Day, Exercise, Session, SetLog, Settings, Slot } from '../data/types';
 import { prefillForSlot } from '../logic/prefill';
 import { suggestProgression } from '../logic/progression';
-import { findPRs } from '../logic/records';
+import { deloadActive, deloadRows, deloadSets } from '../logic/deload';
+import { findPRs, withoutDeload } from '../logic/records';
 import { resolveExerciseId } from '../logic/swap';
 import { fmtNum, fromKg, toKg } from '../logic/units';
 import { IconMore } from '../ui/icons';
@@ -92,21 +93,25 @@ export function ExerciseCard({
     [slot, exId, sessions, logs, session?.id],
   );
   const prs = useMemo(
-    () => (ex ? findPRs(logs.filter((l) => l.exerciseId === exId), ex.metric) : new Map()),
-    [logs, exId, ex],
+    () => (ex ? findPRs(withoutDeload(logs, sessions).filter((l) => l.exerciseId === exId), ex.metric) : new Map()),
+    [logs, sessions, exId, ex],
   );
   if (!ex) return null;
 
-  const progression = suggestProgression(slot, ex, prefill.lastSets);
+  // Deload: half the sets, ~60% weight, no progression prompt.
+  const isDeload = session ? !!session.deload : deloadActive(settings, Date.now());
+  const plannedSets = isDeload ? deloadSets(slot.sets) : slot.sets;
+  const baseRows = isDeload ? deloadRows(prefill.rows, ex, slot.sets) : prefill.rows;
+  const progression = isDeload ? null : suggestProgression(slot, ex, prefill.lastSets);
   const unit = ex.inputUnit;
   const maxIndex = mine.reduce((m, l) => Math.max(m, l.index), -1);
-  const count = Math.max(slot.sets, maxIndex + 1);
+  const count = Math.max(plannedSets, maxIndex + 1);
 
   // Stored values (kg) for each row: the session's log, else the prefill.
   const stored: (SetValues & { completed: boolean; id?: number })[] = [];
   for (let i = 0; i < count; i++) {
     const l = mine.find((m) => m.index === i);
-    const p = prefill.rows[i] ?? stored[i - 1] ?? prefill.rows[prefill.rows.length - 1];
+    const p = baseRows[i] ?? stored[i - 1] ?? baseRows[baseRows.length - 1];
     stored.push(
       l
         ? { kg: l.kg, reps: l.reps, seconds: l.seconds, completed: l.completed, id: l.id }
@@ -172,7 +177,7 @@ export function ExerciseCard({
   const doneCount = stored.filter((s) => s.completed).length;
 
   const tech = techniqueFor(ex);
-  const complete = doneCount >= slot.sets;
+  const complete = doneCount >= plannedSets;
   const hasInfo = prefill.source !== 'none' || !!progression;
 
   return (
@@ -187,7 +192,8 @@ export function ExerciseCard({
         </button>
       </div>
       <p className="step-sub">
-        {goalText(slot, ex)}
+        {goalText({ ...slot, sets: plannedSets }, ex)}
+        {isDeload && <span className="tag draft-tag">descarga</span>}
         {slot.note && <span className="tag">{slot.note}</span>}
         {swapped && <span className="tag">cambio de hoy</span>}
       </p>
@@ -263,7 +269,7 @@ export function ExerciseCard({
           unit={unit}
           step={ex.step}
           metric={ex.metric}
-          isExtra={i >= slot.sets}
+          isExtra={i >= plannedSets}
           isPR={s.completed && s.id !== undefined && prs.has(s.id)}
           onWeight={(w) => onWeight(i, w)}
           onReps={(r) => write(i, { reps: r })}
@@ -279,7 +285,7 @@ export function ExerciseCard({
         <button className="btn secondary small" onClick={addRow}>
           + serie
         </button>
-        {prefill.source === 'slot' && !complete && (
+        {prefill.source === 'slot' && !complete && !isDeload && (
           <button className="btn secondary small" onClick={sameAsLast}>
             Igual que la vez pasada
           </button>

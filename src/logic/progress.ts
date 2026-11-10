@@ -26,7 +26,7 @@ function better(a: SetLog, b: SetLog, metric: Metric): boolean {
 
 /** Completed work sets of one exercise in finished sessions, optionally limited to one day. */
 export function exerciseSets(logs: SetLog[], sessions: Session[], exerciseId: string, dayId?: string): SetLog[] {
-  const ok = new Map(sessions.filter((s) => s.status === 'finished').map((s) => [s.id, s]));
+  const ok = new Map(sessions.filter((s) => s.status === 'finished' && !s.deload).map((s) => [s.id, s]));
   return logs.filter(
     (l) =>
       l.exerciseId === exerciseId &&

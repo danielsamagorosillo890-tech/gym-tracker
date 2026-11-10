@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import { db, isDemo } from './data/db';
 import { exitDemo } from './data/demo';
+import { Body } from './screens/Body';
 import { History } from './screens/History';
 import { Progress } from './screens/Progress';
 import { Routine } from './screens/Routine';
@@ -20,18 +21,6 @@ const TABS: { id: Tab; label: string; icon: ReactNode }[] = [
   { id: 'history', label: 'Historial', icon: <IconHistory /> },
   { id: 'body', label: 'Cuerpo', icon: <IconBody /> },
 ];
-
-function Placeholder({ title, phase, text }: { title: string; phase: string; text: string }) {
-  return (
-    <div className="screen">
-      <h2 className="screen-title">{title}</h2>
-      <section className="card empty">
-        <p>{text}</p>
-        <p className="muted">Llega en la {phase}.</p>
-      </section>
-    </div>
-  );
-}
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('today');
@@ -97,7 +86,7 @@ export default function App() {
           ) : tab === 'history' ? (
             <History />
           ) : (
-            <Placeholder title="Cuerpo" phase="Fase 4" text="Peso corporal y medidas con su gráfica." />
+            <Body />
           )}
         </main>
 

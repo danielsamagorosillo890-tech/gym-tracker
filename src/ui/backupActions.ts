@@ -42,3 +42,25 @@ export async function shareBackup(): Promise<boolean> {
     return false;
   }
 }
+
+/** Downloads a CSV (with BOM so Excel reads accents) or opens the share sheet. */
+export async function exportCsv(name: string, csv: string, share: boolean): Promise<boolean> {
+  const blob = new Blob(['﻿', csv], { type: 'text/csv;charset=utf-8' });
+  if (share) {
+    try {
+      await navigator.share({ files: [new File([blob], name, { type: 'text/csv' })], title: name });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  return true;
+}

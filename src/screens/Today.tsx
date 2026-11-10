@@ -5,7 +5,8 @@ import { backupReminderDue } from '../data/backup';
 import { db } from '../data/db';
 import type { Day, Exercise, Session, SetLog, Slot, Variant } from '../data/types';
 import { nextDayId } from '../logic/cycle';
-import { findPRs, type PrReason } from '../logic/records';
+import { deloadActive, deloadSets } from '../logic/deload';
+import { findPRs, withoutDeload, type PrReason } from '../logic/records';
 import { resolveExerciseId } from '../logic/swap';
 import { fmtNum, fromKg } from '../logic/units';
 import { effectiveVariant, slotsForVariant, variantFor } from '../logic/variant';
@@ -32,13 +33,22 @@ type Step = { kind: 'warmup' } | { kind: 'exercise'; slot: Slot } | { kind: 'fin
 const REASON: Record<PrReason, string> = { e1rm: '1RM estimado', reps: 'más reps', time: 'más tiempo' };
 const STEP_KEY = 'gym-step';
 
-function buildSummary(session: Session, endedAt: number, logs: SetLog[], exercises: Map<string, Exercise>, days: Day[]): Summary {
+function buildSummary(
+  session: Session,
+  endedAt: number,
+  logs: SetLog[],
+  exercises: Map<string, Exercise>,
+  days: Day[],
+  sessions: Session[],
+): Summary {
+  const eligible = withoutDeload(logs, sessions);
   const mine = logs.filter((l) => l.sessionId === session.id && l.kind === 'work' && l.completed);
   const prs: string[] = [];
   for (const exId of new Set(mine.map((l) => l.exerciseId))) {
     const ex = exercises.get(exId);
     if (!ex) continue;
-    const map = findPRs(logs.filter((l) => l.exerciseId === exId), ex.metric);
+    if (session.deload) break;
+    const map = findPRs(eligible.filter((l) => l.exerciseId === exId), ex.metric);
     const hits = mine.filter((l) => l.exerciseId === exId && map.has(l.id));
     const best = hits[hits.length - 1];
     if (!best) continue;
@@ -131,6 +141,8 @@ export function Today() {
   const timer = useRestTimer();
 
   const exercises = useMemo(() => new Map((exList ?? []).map((e) => [e.id, e])), [exList]);
+  const isDeload = current ? !!current.deload : !!settings && deloadActive(settings, Date.now());
+  const planned = (slot: Slot) => (isDeload ? deloadSets(slot.sets) : slot.sets);
 
   const dayId = days && sessions ? (current?.dayId ?? draft?.dayId ?? nextDayId(days, sessions)) : null;
   const requested: Variant | null =
@@ -185,7 +197,7 @@ export function Today() {
       return;
     }
     let i = plan.steps.findIndex((s) =>
-      s.kind === 'warmup' ? warmDone < plan.warm.length : s.kind === 'exercise' ? (doneBySlot.get(s.slot.id) ?? 0) < s.slot.sets : true,
+      s.kind === 'warmup' ? warmDone < plan.warm.length : s.kind === 'exercise' ? (doneBySlot.get(s.slot.id) ?? 0) < planned(s.slot) : true,
     );
     if (i < 0) i = 0;
     setStepState(i);
@@ -244,7 +256,7 @@ export function Today() {
     const endedAt = Date.now();
     await finishSession(current.id, note);
     const fresh = await db.setLogs.toArray();
-    setSummary(buildSummary(current, endedAt, fresh, exercises, days));
+    setSummary(buildSummary(current, endedAt, fresh, exercises, days, sessions));
     setNote('');
     timer.skip();
     window.scrollTo(0, 0);
@@ -255,7 +267,7 @@ export function Today() {
     s.kind === 'warmup'
       ? plan.warm.length > 0 && warmDone === plan.warm.length
       : s.kind === 'exercise'
-        ? (doneBySlot.get(s.slot.id) ?? 0) >= s.slot.sets
+        ? (doneBySlot.get(s.slot.id) ?? 0) >= planned(s.slot)
         : false;
   const stepStarted = (s: Step) =>
     s.kind === 'warmup' ? warmDone > 0 : s.kind === 'exercise' ? (doneBySlot.get(s.slot.id) ?? 0) > 0 : false;
@@ -279,7 +291,7 @@ export function Today() {
   }
 
   const exerciseIndex = active.kind === 'exercise' ? work.indexOf(active.slot) : -1;
-  const preview = current ? buildSummary(current, Date.now(), logs, exercises, days) : null;
+  const preview = current ? buildSummary(current, Date.now(), logs, exercises, days, sessions) : null;
 
   return (
     <div className="screen today">
@@ -325,6 +337,10 @@ export function Today() {
           <IconMore />
         </button>
       </section>
+
+      {isDeload && (
+        <p className="note">Semana de descarga: la mitad de series y alrededor de 60% del peso. No cuenta para progresión ni PRs.</p>
+      )}
 
       <div className="strip" ref={stripRef} role="tablist" aria-label="Pasos">
         {steps.map((s, i) => (
@@ -380,7 +396,7 @@ export function Today() {
           ) : (
             <>
               <p className="step-sub">
-                {work.filter((s) => (doneBySlot.get(s.id) ?? 0) >= s.sets).length} de {work.length} ejercicios completos.
+                {work.filter((s) => (doneBySlot.get(s.id) ?? 0) >= planned(s)).length} de {work.length} ejercicios completos.
               </p>
               <Stats s={preview} />
               {preview.sets === 0 && (

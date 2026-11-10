@@ -49,3 +49,9 @@ export function findPRs(sets: SetLog[], metric: Metric): Map<number, PrReason[]>
   }
   return result;
 }
+
+/** Drops sets from deload sessions so lighter sets never count as (or against) PRs. */
+export function withoutDeload(logs: SetLog[], sessions: { id: number; deload?: boolean }[]): SetLog[] {
+  const deload = new Set(sessions.filter((s) => s.deload).map((s) => s.id));
+  return deload.size ? logs.filter((l) => !deload.has(l.sessionId)) : logs;
+}

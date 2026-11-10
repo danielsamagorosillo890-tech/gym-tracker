@@ -1,7 +1,8 @@
-import { DATA_TABLES, type DataTable, type GymDB } from './db';
+import { DATA_TABLES, LATER_TABLES, type DataTable, type GymDB } from './db';
 import { DEFAULT_SETTINGS } from './types';
 
-export const SCHEMA_VERSION = 1;
+// v2 added bodyWeights and measurements; v1 files import with those empty.
+export const SCHEMA_VERSION = 2;
 const MAX_AUTO_BACKUPS = 3;
 
 export interface ExportFile {
@@ -36,8 +37,10 @@ export function parseBackup(json: string): ExportFile {
   if (typeof f.schemaVersion !== 'number' || f.schemaVersion > SCHEMA_VERSION) {
     throw new BackupError('El respaldo es de una versión más nueva de la app. Actualiza la app primero.');
   }
+  const data = f.data as Record<string, unknown>;
   for (const t of DATA_TABLES) {
-    if (!Array.isArray((f.data as Record<string, unknown>)[t])) {
+    if (data[t] === undefined && LATER_TABLES.includes(t)) data[t] = [];
+    if (!Array.isArray(data[t])) {
       throw new BackupError(`Al respaldo le falta la tabla "${t}".`);
     }
   }

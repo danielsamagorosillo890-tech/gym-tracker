@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { deleteSession, deleteSetLog, updateSession, updateSetLog } from '../data/actions';
 import { db } from '../data/db';
 import type { Exercise, Session, SetLog, Slot } from '../data/types';
-import { findPRs } from '../logic/records';
+import { findPRs, withoutDeload } from '../logic/records';
 import { fmtNum, fromKg, toKg } from '../logic/units';
 import { tonnage } from '../logic/volume';
 import { IconClose } from '../ui/icons';
@@ -31,12 +31,13 @@ export function History() {
   const prIds = useMemo(() => {
     const ids = new Set<number>();
     if (!logs) return ids;
+    const eligible = withoutDeload(logs, sessions ?? []);
     for (const ex of exercises.values()) {
-      const mine = logs.filter((l) => l.exerciseId === ex.id);
+      const mine = eligible.filter((l) => l.exerciseId === ex.id);
       if (mine.length) for (const id of findPRs(mine, ex.metric).keys()) ids.add(id);
     }
     return ids;
-  }, [logs, exercises]);
+  }, [logs, exercises, sessions]);
 
   if (!sessions || !logs || !days || !slots) return null;
   const dayName = (id: string) => days.find((d) => d.id === id)?.name ?? id;
@@ -81,6 +82,7 @@ export function History() {
                   <strong>
                     {dayName(s.dayId)}
                     {s.status === 'finished' && <span className="muted"> · Semana {s.variant}</span>}
+                    {s.deload && <span className="tag draft-tag">descarga</span>}
                   </strong>
                   <span className="muted">
                     {s.status === 'skipped'

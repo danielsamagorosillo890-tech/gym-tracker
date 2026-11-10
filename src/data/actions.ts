@@ -1,7 +1,17 @@
 import { db } from './db';
 import { fixSwap } from '../logic/swap';
 import { copyVariant, moveSlot, newSlotId, slugify } from '../logic/routine';
-import { DEFAULT_SETTINGS, type Exercise, type SetLog, type Settings, type Slot, type TechniqueText, type Variant } from './types';
+import {
+  DEFAULT_SETTINGS,
+  type BodyWeight,
+  type Exercise,
+  type Measurement,
+  type SetLog,
+  type Settings,
+  type Slot,
+  type TechniqueText,
+  type Variant,
+} from './types';
 import { requestPersist } from '../storage';
 
 export async function getSettings(): Promise<Settings> {
@@ -14,6 +24,8 @@ export async function updateSettings(patch: Partial<Settings>): Promise<void> {
 }
 
 export async function startSession(dayId: string, variant: Variant): Promise<number> {
+  const settings = await getSettings();
+  const deload = !!settings.deloadUntil && settings.deloadUntil > Date.now();
   return db.transaction('rw', db.sessions, async () => {
     const open = await db.sessions.where('status').equals('in_progress').first();
     if (open) return open.id;
@@ -25,6 +37,7 @@ export async function startSession(dayId: string, variant: Variant): Promise<num
       status: 'in_progress',
       note: '',
       overrides: {},
+      ...(deload ? { deload: true } : {}),
     } as never) as Promise<number>;
   });
 }
@@ -299,4 +312,39 @@ export async function setUserMedia(exerciseId: string, file: File): Promise<void
 
 export async function removeUserMedia(exerciseId: string): Promise<void> {
   await db.userMedia.where({ exerciseId }).delete();
+}
+
+// ---- Body & deload (Phase 4) ----
+
+/** One body weight per date: saving again on the same date replaces it. */
+export async function saveBodyWeight(date: string, kg: number): Promise<void> {
+  await db.transaction('rw', db.bodyWeights, async () => {
+    const existing = await db.bodyWeights.where({ date }).first();
+    if (existing) await db.bodyWeights.update(existing.id, { kg });
+    else await db.bodyWeights.add({ date, kg } as BodyWeight);
+  });
+}
+
+export async function deleteBodyWeight(id: number): Promise<void> {
+  await db.bodyWeights.delete(id);
+}
+
+export async function saveMeasurement(date: string, values: Omit<Measurement, 'id' | 'date'>): Promise<void> {
+  await db.transaction('rw', db.measurements, async () => {
+    const existing = await db.measurements.where({ date }).first();
+    if (existing) await db.measurements.update(existing.id, values);
+    else await db.measurements.add({ date, ...values } as Measurement);
+  });
+}
+
+export async function deleteMeasurement(id: number): Promise<void> {
+  await db.measurements.delete(id);
+}
+
+export async function startDeload(days = 7): Promise<void> {
+  await updateSettings({ deloadUntil: Date.now() + days * 86_400_000 });
+}
+
+export async function endDeload(): Promise<void> {
+  await updateSettings({ deloadUntil: null });
 }

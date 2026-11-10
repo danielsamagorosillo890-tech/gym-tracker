@@ -1888,3 +1888,12 @@ button.technique {
 .r-tech .tech-media.thumb {
   width: 84px;
 }
+
+/* Body (Phase 4) */
+.row-action {
+  margin-right: 8px;
+}
+
+input[type='date'].text-input {
+  color-scheme: inherit;
+}

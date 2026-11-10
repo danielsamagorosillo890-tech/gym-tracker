@@ -1,14 +1,16 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useRef, useState } from 'react';
-import { updateSettings, wipeAll } from '../data/actions';
+import { endDeload, startDeload, updateSettings, wipeAll } from '../data/actions';
 import { BackupError, importData, parseBackup } from '../data/backup';
 import { db, isDemo } from '../data/db';
 import { enterDemo, exitDemo } from '../data/demo';
 import { parseDecimal } from '../logic/number';
 import { getPersistState, requestPersist, type PersistState } from '../storage';
-import { canShareFiles, downloadBackup, shareBackup } from '../ui/backupActions';
+import { canShareFiles, downloadBackup, exportCsv, shareBackup } from '../ui/backupActions';
+import { bodyCsv, localDate, setsCsv } from '../logic/csv';
 import { ConfirmInline } from '../ui/Sheet';
 
+const deloadFmt = new Intl.DateTimeFormat('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
 const dateFmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
 const PERSIST: Record<PersistState, string> = {
@@ -26,6 +28,21 @@ export function SettingsScreen() {
   const [message, setMessage] = useState<{ text: string; error?: boolean } | null>(null);
   const [wipeStep, setWipeStep] = useState(0);
   const [demoStep, setDemoStep] = useState(false);
+  const deloadOn = !!settings?.deloadUntil && settings.deloadUntil > Date.now();
+
+  const csv = async (kind: 'series' | 'cuerpo', share: boolean) => {
+    const stamp = localDate(Date.now());
+    const text =
+      kind === 'series'
+        ? setsCsv(
+            await db.sessions.toArray(),
+            await db.setLogs.toArray(),
+            new Map((await db.exercises.toArray()).map((e) => [e.id, e])),
+            await db.days.toArray(),
+          )
+        : bodyCsv(await db.bodyWeights.toArray(), await db.measurements.toArray());
+    await exportCsv(`gym-tracker-${kind}-${stamp}.csv`, text, share);
+  };
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -156,6 +173,53 @@ export function SettingsScreen() {
               Pedirlo otra vez
             </button>
           </>
+        )}
+      </section>
+
+      <section className="card">
+        <h3>Semana de descarga</h3>
+        {deloadOn ? (
+          <>
+            <p className="muted">
+              Activa hasta el {deloadFmt.format(settings.deloadUntil!)}. En Hoy verás la mitad de series y alrededor de 60% del peso. Estas
+              sesiones no cuentan para el pre-llenado, las gráficas ni los PRs.
+            </p>
+            <button className="btn secondary" onClick={() => endDeload()}>
+              Terminar descarga
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="muted">
+              Una semana más ligera para recuperarte. Al terminarla, la app vuelve a tus pesos de antes.
+            </p>
+            <button className="btn secondary" onClick={() => startDeload()}>
+              Empezar semana de descarga
+            </button>
+          </>
+        )}
+      </section>
+
+      <section className="card">
+        <h3>Exportar CSV</h3>
+        <p className="muted">Para abrir en Excel o Google Sheets. Peso siempre en kg.</p>
+        <div className="row">
+          <button className="btn secondary" onClick={() => csv('series', false)}>
+            Series
+          </button>
+          <button className="btn secondary" onClick={() => csv('cuerpo', false)}>
+            Cuerpo
+          </button>
+        </div>
+        {canShareFiles() && (
+          <div className="row">
+            <button className="btn secondary small" onClick={() => csv('series', true)}>
+              Compartir series
+            </button>
+            <button className="btn secondary small" onClick={() => csv('cuerpo', true)}>
+              Compartir cuerpo
+            </button>
+          </div>
         )}
       </section>
 

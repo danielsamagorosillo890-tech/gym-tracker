@@ -15,6 +15,9 @@
   --border: #30353d;
   --radius: 14px;
   --nav-h: 64px;
+  --series-1: #1fa978;
+  --series-2: #3987e5;
+  --grid: #2a2f37;
   color-scheme: dark;
 }
 
@@ -33,6 +36,9 @@
   --warn: #92400e;
   --danger: #b91c1c;
   --border: #d3d8de;
+  --series-1: #047857;
+  --series-2: #2a78d6;
+  --grid: #e3e6ea;
   color-scheme: light;
 }
 
@@ -1375,4 +1381,335 @@ input.num:disabled {
   text-transform: uppercase;
   color: var(--text-muted);
   margin-top: 8px;
+}
+
+/* Progress & history (Phase 2) */
+.back {
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.stat-card span {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stat-card strong {
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-card small {
+  color: var(--text-muted);
+}
+
+.chart-card {
+  gap: 12px;
+}
+
+.chart {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+.chart svg {
+  display: block;
+  overflow: visible;
+}
+
+.chart .grid {
+  stroke: var(--grid);
+  stroke-width: 1;
+}
+
+.chart .axis {
+  fill: var(--text-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart .axis.unit {
+  font-weight: 700;
+}
+
+.chart .crosshair {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.chart .marker {
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.chart .end-label {
+  fill: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tooltip {
+  position: absolute;
+  top: 26px;
+  width: 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 28px 8px 10px;
+  border-radius: 10px;
+  background: var(--surface-3);
+  color: var(--text);
+  font-size: 0.82rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  pointer-events: auto;
+}
+
+.tooltip i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 6px;
+}
+
+.tooltip-close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+.pr-row {
+  padding-left: 12px;
+  gap: 4px;
+}
+
+.r-main.static {
+  cursor: default;
+}
+
+/* Volume */
+.volume {
+  gap: 4px;
+}
+
+.vol-head,
+.vol-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 8px;
+}
+
+.vol-row {
+  min-height: 48px;
+  border-bottom: 1px solid var(--border);
+}
+
+.vol-row:last-of-type {
+  border-bottom: none;
+}
+
+.vol-name {
+  font-size: 0.88rem;
+}
+
+.vol-bars {
+  width: 100%;
+  height: 36px;
+}
+
+.vol-bar {
+  fill: var(--series-1);
+  opacity: 0.55;
+}
+
+.vol-bar.current {
+  opacity: 1;
+}
+
+.vol-bar.on {
+  opacity: 1;
+  stroke: var(--text);
+  stroke-width: 1.5;
+}
+
+.vol-zero {
+  fill: var(--grid);
+}
+
+.vol-now {
+  text-align: right;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.vol-detail {
+  margin-top: 6px;
+  min-height: 1.4em;
+}
+
+/* History */
+.h-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.h-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 68px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-align: left;
+  cursor: pointer;
+}
+
+.h-card.skipped {
+  background: transparent;
+  border-style: dashed;
+}
+
+.h-date {
+  width: 64px;
+  flex: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.h-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.h-ex {
+  gap: 8px;
+}
+
+.h-row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1fr) 34px 48px;
+  align-items: center;
+  gap: 8px;
+}
+
+.h-field {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.h-field small {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.h-row input.num {
+  min-height: 48px;
+  font-size: 1.15rem;
+}
+
+.h-row .btn.danger.small {
+  padding: 0 6px;
+  font-size: 0.8rem;
+}
+
+/* Demo banner */
+.demo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px 6px 16px;
+  background: #fbbf24;
+  color: #1d1400;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.demo-banner .btn {
+  background: rgba(0, 0, 0, 0.15);
+  color: #1d1400;
+}
+
+.h-date::first-letter {
+  text-transform: uppercase;
 }

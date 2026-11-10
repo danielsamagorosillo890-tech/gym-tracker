@@ -271,3 +271,13 @@ export async function moveDay(dayId: string, dir: -1 | 1): Promise<void> {
     await db.days.bulkPut(days.map((d, k) => ({ ...d, order: k })));
   });
 }
+
+// ---- History editing (Phase 2) ----
+
+export async function updateSetLog(id: number, patch: Partial<Pick<SetLog, 'kg' | 'reps' | 'seconds'>>): Promise<void> {
+  await db.setLogs.update(id, patch);
+}
+
+export async function deleteSetLog(id: number): Promise<void> {
+  await db.setLogs.delete(id);
+}

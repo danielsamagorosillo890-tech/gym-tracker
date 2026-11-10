@@ -2,7 +2,8 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useRef, useState } from 'react';
 import { updateSettings, wipeAll } from '../data/actions';
 import { BackupError, importData, parseBackup } from '../data/backup';
-import { db } from '../data/db';
+import { db, isDemo } from '../data/db';
+import { enterDemo, exitDemo } from '../data/demo';
 import { parseDecimal } from '../logic/number';
 import { getPersistState, requestPersist, type PersistState } from '../storage';
 import { canShareFiles, downloadBackup, shareBackup } from '../ui/backupActions';
@@ -24,6 +25,7 @@ export function SettingsScreen() {
   const [restoreId, setRestoreId] = useState<number | null>(null);
   const [message, setMessage] = useState<{ text: string; error?: boolean } | null>(null);
   const [wipeStep, setWipeStep] = useState(0);
+  const [demoStep, setDemoStep] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -153,6 +155,40 @@ export function SettingsScreen() {
             <button className="btn secondary" onClick={() => requestPersist().then(setPersist)}>
               Pedirlo otra vez
             </button>
+          </>
+        )}
+      </section>
+
+      <section className="card">
+        <h3>Modo demo</h3>
+        {isDemo() ? (
+          <>
+            <p className="muted">Estás viendo datos de demostración. Al salir se borran y vuelves a tus datos reales.</p>
+            <button className="btn primary" onClick={() => exitDemo()}>
+              Salir del modo demo
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="muted">
+              Genera 12 semanas de entrenamientos ficticios con tu rutina actual, en una base de datos aparte, para ver cómo
+              se ven las gráficas. Tus datos reales no se tocan.
+            </p>
+            {demoStep ? (
+              <ConfirmInline
+                message="¿Entrar al modo demo? La app se recarga con datos ficticios y un aviso arriba para salir."
+                confirmLabel="Entrar"
+                onConfirm={() => {
+                  setDemoStep(false);
+                  enterDemo();
+                }}
+                onCancel={() => setDemoStep(false)}
+              />
+            ) : (
+              <button className="btn secondary" onClick={() => setDemoStep(true)}>
+                Probar con datos de demostración
+              </button>
+            )}
           </>
         )}
       </section>

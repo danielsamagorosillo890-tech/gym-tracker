@@ -5,7 +5,7 @@ import { fmtNum } from '../logic/units';
 import { IconCheck, IconClose, IconMinus, IconPlus } from '../ui/icons';
 
 /** Text input that keeps the user's raw text while typing ("62," is valid mid-edit). */
-function NumInput({
+export function NumInput({
   value,
   onCommit,
   label,

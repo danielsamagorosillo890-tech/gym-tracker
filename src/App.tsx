@@ -1,7 +1,10 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useState, type ReactNode } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
-import { db } from './data/db';
+import { db, isDemo } from './data/db';
+import { exitDemo } from './data/demo';
+import { History } from './screens/History';
+import { Progress } from './screens/Progress';
 import { Routine } from './screens/Routine';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { Today } from './screens/Today';
@@ -64,6 +67,15 @@ export default function App() {
           </button>
         </header>
 
+        {isDemo() && (
+          <div className="demo-banner" role="status">
+            <span>Datos de demostración. Tus datos reales no se tocan.</span>
+            <button className="btn small" onClick={() => exitDemo()}>
+              Salir
+            </button>
+          </div>
+        )}
+
         {needRefresh && !inProgress && (
           <div className="banner">
             <span>Hay una versión nueva.</span>
@@ -81,13 +93,9 @@ export default function App() {
           ) : tab === 'routine' ? (
             <Routine />
           ) : tab === 'progress' ? (
-            <Placeholder
-              title="Progreso"
-              phase="Fase 2"
-              text="Gráficas por ejercicio (mejor serie y 1RM estimado), récords y volumen semanal por grupo muscular."
-            />
+            <Progress />
           ) : tab === 'history' ? (
-            <Placeholder title="Historial" phase="Fase 2" text="Lista de sesiones por fecha, con detalle editable." />
+            <History />
           ) : (
             <Placeholder title="Cuerpo" phase="Fase 4" text="Peso corporal y medidas con su gráfica." />
           )}

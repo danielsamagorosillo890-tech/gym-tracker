@@ -71,4 +71,26 @@ export async function ensureSeeded(db: GymDB): Promise<void> {
   });
 }
 
-export const db = createDB();
+export const REAL_DB = 'gym-tracker';
+export const DEMO_DB = 'gym-tracker-demo';
+const DEMO_FLAG = 'gym-demo';
+
+/** Demo mode swaps the whole app onto a separate database; real data is never touched. */
+export function isDemo(): boolean {
+  try {
+    return localStorage.getItem(DEMO_FLAG) === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function setDemoFlag(on: boolean): void {
+  try {
+    if (on) localStorage.setItem(DEMO_FLAG, '1');
+    else localStorage.removeItem(DEMO_FLAG);
+  } catch {
+    /* ignored */
+  }
+}
+
+export const db = createDB(isDemo() ? DEMO_DB : REAL_DB);

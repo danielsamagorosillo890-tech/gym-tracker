@@ -93,7 +93,8 @@ export default function App() {
           )}
         </main>
 
-        <RestTimerBar />
+        {/* On Hoy the timer lives inside the step bar. */}
+        {(settingsOpen || tab !== 'today') && <RestTimerBar />}
         <nav className="tabbar" aria-label="Secciones">
           {TABS.map((t) => (
             <button

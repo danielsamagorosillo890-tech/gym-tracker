@@ -50,6 +50,8 @@ export function ExerciseCard({
   settings,
   ensureSession,
   nextLabel,
+  position,
+  onNext,
 }: {
   slot: Slot;
   exercises: Map<string, Exercise>;
@@ -60,8 +62,13 @@ export function ExerciseCard({
   logs: SetLog[];
   settings: Settings;
   ensureSession: () => Promise<number>;
+  /** Name of the next exercise ('' when this is the last one). */
   nextLabel: string;
+  /** e.g. "2 de 12" */
+  position: string;
+  onNext: () => void;
 }) {
+  const nextName = nextLabel;
   const timer = useRestTimer();
   const [menuOpen, setMenuOpen] = useState(false);
   const exId = resolveExerciseId(slot, session);
@@ -161,54 +168,82 @@ export function ExerciseCard({
   const yt = `https://www.youtube.com/results?search_query=${encodeURIComponent(`${ex.name} técnica`)}`;
   const doneCount = stored.filter((s) => s.completed).length;
 
+  const complete = doneCount >= slot.sets;
+  const hasInfo = prefill.source !== 'none' || !!progression;
+
   return (
-    <article className={`card exercise${doneCount >= slot.sets ? ' complete' : ''}`}>
-      <header className="ex-head">
-        <div className="ex-title">
-          <h3>{ex.name}</h3>
-          <div className="ex-goal">
-            {goalText(slot, ex)}
-            {slot.note && <span className="tag">{slot.note}</span>}
-            {swapped && <span className="tag">cambio de hoy</span>}
-          </div>
-        </div>
-        <a className="icon-btn" href={yt} target="_blank" rel="noopener noreferrer" aria-label={`Ver técnica de ${ex.name} en YouTube`}>
-          <IconPlay />
-        </a>
+    <article className="step">
+      <div className="step-kicker">
+        {slot.section} · {position}
+      </div>
+      <div className="ex-head">
+        <h2 className="step-title">{ex.name}</h2>
         <button className="icon-btn" onClick={() => setMenuOpen(true)} aria-label={`Opciones de ${ex.name}`}>
           <IconMore />
         </button>
-      </header>
+      </div>
+      <p className="step-sub">
+        {goalText(slot, ex)}
+        {slot.note && <span className="tag">{slot.note}</span>}
+        {swapped && <span className="tag">cambio de hoy</span>}
+      </p>
 
-      {prefill.source === 'slot' && <p className="last">La vez pasada: {setsSummary(prefill.lastSets, ex)}</p>}
-      {prefill.source === 'exercise' && prefill.reference && (
-        <p className="last">
-          Referencia{refDay ? ` en ${refDay.name}` : ''}: {setsSummary(prefill.reference.sets, ex)}
-        </p>
-      )}
+      <a className="technique" href={yt} target="_blank" rel="noopener noreferrer">
+        <span className="technique-icon">
+          <IconPlay size={28} />
+        </span>
+        <span>
+          <strong>Ver técnica en YouTube</strong>
+          <small>Las fotos de técnica llegan en la Fase 3</small>
+        </span>
+      </a>
+
       {(ex.machineSettings || ex.notes) && (
-        <p className="ex-notes">
-          {ex.machineSettings && <span>Máquina: {ex.machineSettings}</span>}
-          {ex.notes && <span>{ex.notes}</span>}
-        </p>
-      )}
-
-      {progression?.kind === 'increase' && (
-        <button className="chip accent" onClick={() => applyIncrease(progression.kg, progression.reps)}>
-          Sube a {fmtNum(fromKg(progression.kg, unit))} {unit}
+        <button className="info-block notes" onClick={() => setMenuOpen(true)}>
+          {ex.machineSettings && (
+            <span>
+              <b>Máquina</b> {ex.machineSettings}
+            </span>
+          )}
+          {ex.notes && (
+            <span>
+              <b>Notas</b> {ex.notes}
+            </span>
+          )}
         </button>
       )}
-      {progression?.kind === 'more_reps' && (
-        <p className="hint">
-          Meta: más reps con {fmtNum(fromKg(progression.kg, unit))} {unit}
-        </p>
-      )}
-      {progression?.kind === 'hold' && (
-        <p className="hint">
-          Mantén {fmtNum(fromKg(progression.kg, unit))} {unit}
-        </p>
+
+      {hasInfo && (
+        <div className="info-block">
+          {prefill.source === 'slot' && (
+            <p>
+              <b>La vez pasada</b> {setsSummary(prefill.lastSets, ex)}
+            </p>
+          )}
+          {prefill.source === 'exercise' && prefill.reference && (
+            <p>
+              <b>Referencia{refDay ? ` en ${refDay.name}` : ''}</b> {setsSummary(prefill.reference.sets, ex)}
+            </p>
+          )}
+          {progression?.kind === 'increase' && (
+            <button className="chip accent" onClick={() => applyIncrease(progression.kg, progression.reps)}>
+              Sube a {fmtNum(fromKg(progression.kg, unit))} {unit}
+            </button>
+          )}
+          {progression?.kind === 'more_reps' && (
+            <p className="hint">
+              Meta: más reps con {fmtNum(fromKg(progression.kg, unit))} {unit}
+            </p>
+          )}
+          {progression?.kind === 'hold' && (
+            <p className="hint">
+              Mantén {fmtNum(fromKg(progression.kg, unit))} {unit}
+            </p>
+          )}
+        </div>
       )}
 
+      <div className="sets">
       <div className="set-head" aria-hidden="true">
         <span>#</span>
         <span>{unit}{ex.weightBasis === 'dumbbell' ? ' c/u' : ''}</span>
@@ -233,16 +268,24 @@ export function ExerciseCard({
         />
       ))}
 
+      </div>
+
       <div className="ex-actions">
         <button className="btn secondary small" onClick={addRow}>
           + serie
         </button>
-        {prefill.source === 'slot' && (
+        {prefill.source === 'slot' && !complete && (
           <button className="btn secondary small" onClick={sameAsLast}>
             Igual que la vez pasada
           </button>
         )}
       </div>
+
+      {complete && (
+        <button className="btn primary next-cta" onClick={onNext}>
+          {nextName ? `Siguiente: ${nextName}` : 'Terminar sesión'}
+        </button>
+      )}
 
       {menuOpen && (
         <ExerciseMenu

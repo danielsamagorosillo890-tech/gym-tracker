@@ -242,3 +242,17 @@ LOWER [B] (semana 2): por definir. Mientras tanto, usar la A.
 - Verifica en una ventana de 390 px de ancho que no haya scroll horizontal y que todo sea alcanzable con una mano.
 - Rendimiento: abrir en menos de 2 segundos en un Android de gama media, incluso sin señal.
 - Accesibilidad básica: contraste suficiente en ambos temas y foco visible.
+
+## 11. Decisiones tomadas (10 nov 2026, tras la Fase 0)
+
+Estas decisiones mandan sobre lo escrito arriba si hay conflicto.
+
+- **Fase 0 aprobada** en Android: los datos sobreviven a cerrar la app, matarla desde recientes, reiniciar y modo avión. `persist()` aún sale "No concedido" (Chrome lo decide por uso); el respaldo es la protección real.
+- **Recordatorio de respaldo en la Fase 1** (no en la 4): aviso si pasan más de 14 días sin exportar.
+- **Notificaciones para el descanso:** pedir permiso la primera vez que arranque un temporizador, una sola vez; si el permiso se niega, la app sigue funcionando igual. Avisar al terminar el descanso aunque la app esté en segundo plano. El temporizador se calcula con marcas de tiempo, no con conteo de ticks.
+- **Sesión terminada sin series de trabajo:** avanza el ciclo, pero no cuenta para la paridad A/B (igual que una saltada).
+- **Paso de peso:** se guarda en la unidad de captura del ejercicio (`paso` en kg o lb, por ejemplo 5 lb), para que la sugerencia caiga en un disco real. El peso se sigue guardando en kg.
+- **La Fase 1 se parte en dos:**
+  - **1a:** modelo completo, siembra, ciclo y variantes, pantalla Hoy completa, exportar/importar JSON, `persist()` al guardar la primera serie, recordatorio de respaldo y pruebas de 5.1 a 5.7.
+  - **1b:** pantalla Rutina con edición.
+- **Actualizaciones de la app:** nunca recargar sola a media sesión; mostrar un aviso "Nueva versión" y aplicarla cuando no haya sesión en curso.

@@ -11,6 +11,9 @@ import { goalText } from './ExerciseCard';
 import { blankExercise, ExerciseEditor } from './routine/ExerciseEditor';
 import { ExercisePicker } from './routine/ExercisePicker';
 import { SlotEditor } from './routine/SlotEditor';
+import { framesFor } from '../data/technique';
+import { TechniqueMedia } from './technique/TechniqueMedia';
+import { TechniqueSheet } from './technique/TechniqueSheet';
 
 const TYPE = { compound: 'Compuesto', isolation: 'Aislamiento' };
 const BASIS = { total: 'peso total', dumbbell: 'por mancuerna', stack: 'pila' };
@@ -267,8 +270,15 @@ function DayMenu({ day, days, onClose }: { day: Day; days: Day[]; onClose: () =>
 function CatalogView({ exercises, slots, days }: { exercises: Map<string, Exercise>; slots: Slot[]; days: Day[] }) {
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<Exercise | 'new' | null>(null);
+  const [tech, setTech] = useState<Exercise | null>(null);
+  const [onlyMissing, setOnlyMissing] = useState(false);
+  const ownIds = useLiveQuery(() => db.userMedia.orderBy('exerciseId').uniqueKeys()) ?? [];
+  const hasVisual = (id: string) => !!framesFor(id) || ownIds.includes(id);
+  const missing = [...exercises.values()].filter((e) => !hasVisual(e.id)).length;
   const q = query.trim().toLowerCase();
-  const list = [...exercises.values()].filter((e) => !q || e.name.toLowerCase().includes(q)).sort((a, b) => a.name.localeCompare(b.name));
+  const list = [...exercises.values()]
+    .filter((e) => !q || e.name.toLowerCase().includes(q))
+    .filter((e) => !onlyMissing || !hasVisual(e.id)).sort((a, b) => a.name.localeCompare(b.name));
   const usedIn = (id: string) =>
     [...new Set(slots.filter((s) => s.exerciseId === id).map((s) => days.find((d) => d.id === s.dayId)?.name ?? s.dayId))].join(', ');
   const groups = [
@@ -282,6 +292,9 @@ function CatalogView({ exercises, slots, days }: { exercises: Map<string, Exerci
       <input className="search" placeholder="Buscar ejercicio" value={query} onChange={(e) => setQuery(e.target.value)} />
       <button className="btn secondary" onClick={() => setEditing('new')}>
         + Nuevo ejercicio
+      </button>
+      <button className={`btn small ${onlyMissing ? 'primary' : 'secondary'}`} onClick={() => setOnlyMissing(!onlyMissing)}>
+        Sin visual ({missing})
       </button>
       {groups.map(({ g, items }) => (
         <section key={g} className="r-block">
@@ -300,11 +313,15 @@ function CatalogView({ exercises, slots, days }: { exercises: Map<string, Exerci
                   </span>
                   <span className="muted small">{usedIn(e.id) ? `En: ${usedIn(e.id)}` : 'Sin usar en la rutina'}</span>
                 </button>
+                <button className="r-tech" onClick={() => setTech(e)} aria-label={`Técnica de ${e.name}`}>
+                  {hasVisual(e.id) ? <TechniqueMedia exerciseId={e.id} name={e.name} size="thumb" /> : <span className="tag warn-tag">Sin visual</span>}
+                </button>
               </li>
             ))}
           </ul>
         </section>
       ))}
+      {tech && <TechniqueSheet exercise={tech} onClose={() => setTech(null)} />}
       {editing && (
         <ExerciseEditor initial={editing === 'new' ? { ...blankExercise(false), name: query.trim() } : editing} onClose={() => setEditing(null)} />
       )}

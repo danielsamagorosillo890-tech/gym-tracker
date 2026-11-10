@@ -10,6 +10,7 @@ import {
   type Settings,
   type Slot,
   type WarmupCheck,
+  type UserMedia,
 } from './types';
 
 export type GymDB = Dexie & {
@@ -21,6 +22,7 @@ export type GymDB = Dexie & {
   warmupChecks: EntityTable<WarmupCheck, 'id'>;
   settings: EntityTable<Settings, 'id'>;
   backups: EntityTable<Backup, 'id'>;
+  userMedia: EntityTable<UserMedia, 'id'>;
 };
 
 /** Tables included in export/import, in restore order. */
@@ -50,6 +52,8 @@ export function createDB(name = 'gym-tracker'): GymDB {
     settings: 'id',
     backups: '++id, createdAt',
   });
+  // v3: photos/videos the user uploads (not part of the JSON backup).
+  db.version(3).stores({ userMedia: '++id, exerciseId' });
   db.on('populate', (tx) => {
     tx.table('exercises').bulkAdd(seedExercises());
     tx.table('days').bulkAdd(SEED_DAYS);

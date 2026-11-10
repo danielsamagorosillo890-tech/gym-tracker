@@ -1,0 +1,362 @@
+{
+  "circles": {
+    "cues": ["Brazos extendidos a los lados, a la altura de los hombros", "Círculos pequeños que se van haciendo grandes", "Cambia de sentido a la mitad del tiempo"],
+    "musculo": "Hombro (movilidad)",
+    "error": "Encoger los hombros hacia las orejas",
+    "revisado": false
+  },
+  "arm-swings": {
+    "cues": ["Pies a la anchura de la cadera, rodillas suaves", "Balancea los brazos cruzándolos al frente y abriéndolos atrás", "Movimiento fluido, sin tirones"],
+    "musculo": "Pecho y hombro (movilidad)",
+    "error": "Arquear la espalda baja al abrir los brazos",
+    "revisado": false
+  },
+  "chest-flys": {
+    "cues": ["Peso muy ligero: es para activar, no para cansar", "Codos ligeramente flexionados y fijos", "Abre hasta sentir estiramiento en el pecho, sin dolor en el hombro"],
+    "musculo": "Pecho",
+    "error": "Bajar demasiado y forzar el frente del hombro",
+    "revisado": false
+  },
+  "band-rotation": {
+    "cues": ["Codo pegado al costado, doblado a 90°", "Gira el antebrazo hacia afuera sin despegar el codo", "Regresa lento, controlando la banda"],
+    "musculo": "Manguito rotador",
+    "error": "Despegar el codo del cuerpo para ganar recorrido",
+    "revisado": false
+  },
+  "assisted-push-ups": {
+    "cues": ["Manos un poco más abiertas que los hombros", "Cuerpo en línea recta de cabeza a talones", "Codos a unos 45° del torso al bajar"],
+    "musculo": "Pecho y tríceps (activación)",
+    "error": "Dejar caer la cadera",
+    "revisado": false
+  },
+  "rotator-cuff-warm-up": {
+    "cues": ["Usa banda o peso muy ligero", "Rotaciones externas e internas con el codo pegado", "Movimientos lentos y sin dolor"],
+    "musculo": "Manguito rotador",
+    "error": "Usar demasiada resistencia",
+    "revisado": false
+  },
+  "banded-shoulder-dislocates": {
+    "cues": ["Agarre ancho en la banda, brazos estirados", "Pasa la banda de frente hacia atrás por encima de la cabeza", "Si duele o se doblan los codos, abre más el agarre"],
+    "musculo": "Hombro y pecho (movilidad)",
+    "error": "Agarre demasiado cerrado que obliga a doblar los codos",
+    "revisado": false
+  },
+  "band-pull-aparts": {
+    "cues": ["Brazos al frente a la altura del pecho", "Separa la banda juntando las escápulas", "Pausa un segundo con la banda tocando el pecho"],
+    "musculo": "Deltoides posterior y espalda alta",
+    "error": "Encoger los hombros en lugar de juntar las escápulas",
+    "revisado": false
+  },
+  "arm-circles": {
+    "cues": ["Brazos extendidos a los lados", "Círculos controlados, de chicos a grandes", "Cambia de sentido a la mitad"],
+    "musculo": "Hombro (movilidad)",
+    "error": "Encoger los hombros",
+    "revisado": false
+  },
+  "assisted-pull-ups": {
+    "cues": ["Agarre un poco más ancho que los hombros", "Empieza bajando las escápulas antes de jalar", "Sube hasta que la barbilla pase la barra"],
+    "musculo": "Dorsal",
+    "error": "Balancear el cuerpo para subir",
+    "revisado": false
+  },
+  "hip-openers": {
+    "cues": ["Rodilla arriba, ábrela hacia afuera en círculo", "Mantén el torso derecho, apóyate si hace falta", "Movimiento amplio y controlado"],
+    "musculo": "Cadera (movilidad)",
+    "error": "Girar todo el torso en lugar de la cadera",
+    "revisado": false
+  },
+  "lunges": {
+    "cues": ["Paso largo, torso erguido", "Baja la rodilla de atrás casi al piso", "La rodilla de enfrente sigue la dirección del pie"],
+    "musculo": "Cuádriceps y glúteo (activación)",
+    "error": "Dejar que la rodilla de enfrente se vaya hacia adentro",
+    "revisado": false
+  },
+  "90-90s": {
+    "cues": ["Sentado, ambas piernas dobladas a 90°", "Gira las rodillas de un lado al otro sin usar las manos si puedes", "Torso alto durante todo el movimiento"],
+    "musculo": "Cadera (rotación interna y externa)",
+    "error": "Encorvar la espalda para alcanzar el piso",
+    "revisado": false
+  },
+  "cossack-squat": {
+    "cues": ["Postura muy abierta, puntas un poco hacia afuera", "Baja hacia un lado con la otra pierna estirada", "Talón de la pierna que se dobla siempre en el piso"],
+    "musculo": "Aductores y cadera (movilidad)",
+    "error": "Levantar el talón al bajar",
+    "revisado": false
+  },
+  "partial-dragon-squat": {
+    "cues": ["Apóyate en algo estable", "Cruza una pierna por detrás de la otra y baja parcialmente", "Rango corto y sin dolor de rodilla"],
+    "musculo": "Cuádriceps, glúteo medio y tobillo",
+    "error": "Bajar más de lo que la rodilla tolera",
+    "revisado": false
+  },
+
+  "bench-press": {
+    "cues": ["Escápulas juntas y hacia abajo, pies firmes en el piso", "Baja la barra a la parte baja del pecho", "Codos a unos 45–70° del torso", "Empuja la barra hacia arriba y un poco hacia atrás"],
+    "musculo": "Pecho",
+    "error": "Rebotar la barra en el pecho o abrir los codos a 90°",
+    "revisado": false
+  },
+  "incline-dumbbell-press": {
+    "cues": ["Banco a 30–45°", "Mancuernas a la altura del pecho alto al bajar", "Empuja hacia arriba juntándolas sin chocarlas", "Escápulas apoyadas y fijas"],
+    "musculo": "Pecho superior",
+    "error": "Banco demasiado inclinado, que vuelve el ejercicio de hombro",
+    "revisado": false
+  },
+  "seated-cable-fly": {
+    "cues": ["Espalda pegada al respaldo, pecho alto", "Codos ligeramente flexionados y fijos", "Junta las manos al frente apretando el pecho", "Regresa lento hasta sentir el estiramiento"],
+    "musculo": "Pecho",
+    "error": "Doblar y estirar los codos, convirtiéndolo en un press",
+    "revisado": false
+  },
+  "smith-machine-military-press": {
+    "cues": ["Banco con respaldo vertical o casi vertical", "Baja la barra hasta la barbilla o la parte alta del pecho", "Antebrazos verticales al empujar", "Abdomen firme, sin arquear la espalda"],
+    "musculo": "Deltoides anterior",
+    "error": "Arquear la espalda baja para empujar más peso",
+    "revisado": false
+  },
+  "dumbbell-shoulder-press": {
+    "cues": ["Mancuernas a la altura de las orejas al empezar", "Empuja hacia arriba sin chocarlas", "Codos ligeramente al frente, no completamente abiertos", "Baja controlado"],
+    "musculo": "Deltoides anterior y medio",
+    "error": "Bajar poco y acortar el rango",
+    "revisado": false
+  },
+  "front-y-raise": {
+    "cues": ["De pie, peso ligero", "Sube los brazos al frente y abiertos, formando una Y", "Pulgares hacia arriba", "Sube hasta la altura de la cabeza, sin encoger los hombros"],
+    "musculo": "Deltoides anterior y trapecio inferior",
+    "error": "Balancear el torso para subir el peso",
+    "revisado": false
+  },
+  "one-arm-reverse-fly": {
+    "cues": ["Polea a la altura del hombro, toma el cable con la mano contraria", "Brazo casi estirado, codo suave", "Lleva el brazo hacia atrás y afuera", "Controla el regreso"],
+    "musculo": "Deltoides posterior",
+    "error": "Girar el torso para ayudar al movimiento",
+    "revisado": false
+  },
+  "single-arm-tricep-pushdown": {
+    "cues": ["Codo pegado al costado durante todo el movimiento", "Extiende el brazo por completo abajo", "Sube controlado hasta que el antebrazo pase la horizontal"],
+    "musculo": "Tríceps",
+    "error": "Mover el codo hacia adelante y atrás",
+    "revisado": false
+  },
+  "reverse-tricep-pushdown": {
+    "cues": ["Agarre supino (palmas hacia arriba)", "Codos fijos a los costados", "Extiende por completo y aprieta el tríceps", "Peso menor que en el pushdown normal"],
+    "musculo": "Tríceps (cabeza medial)",
+    "error": "Doblar las muñecas al empujar",
+    "revisado": false
+  },
+  "rope-pushdown": {
+    "cues": ["Codos pegados al cuerpo", "Al final, separa los extremos de la cuerda hacia afuera", "Sube lento hasta que los antebrazos queden paralelos al piso"],
+    "musculo": "Tríceps (cabeza lateral)",
+    "error": "Inclinarse sobre la cuerda y empujar con el cuerpo",
+    "revisado": false
+  },
+  "one-arm-overhead-tricep-extension": {
+    "cues": ["De espaldas a la polea, codo apuntando al frente y arriba", "Mantén el codo fijo; solo se mueve el antebrazo", "Baja detrás de la cabeza para estirar el tríceps", "Extiende por completo"],
+    "musculo": "Tríceps (cabeza larga)",
+    "error": "Dejar que el codo se abra hacia afuera",
+    "revisado": false
+  },
+
+  "close-grip-lat-pulldown": {
+    "cues": ["Agarre cerrado, pecho alto", "Jala la barra hacia el pecho bajando los codos", "Inclínate ligeramente hacia atrás, sin balancearte", "Sube controlado hasta estirar los dorsales"],
+    "musculo": "Dorsal",
+    "error": "Jalar con los brazos y no con la espalda",
+    "revisado": false
+  },
+  "wide-grip-lat-pulldown": {
+    "cues": ["Agarre ancho, pecho alto", "Lleva la barra a la parte alta del pecho", "Piensa en llevar los codos hacia los bolsillos", "Controla la subida"],
+    "musculo": "Dorsal",
+    "error": "Llevar la barra detrás de la nuca",
+    "revisado": false
+  },
+  "chest-supported-machine-row": {
+    "cues": ["Pecho firme contra el respaldo", "Jala llevando los codos hacia atrás", "Aprieta las escápulas al final", "Regresa estirando sin despegar el pecho"],
+    "musculo": "Espalda media y dorsal",
+    "error": "Despegar el pecho del respaldo para jalar",
+    "revisado": false
+  },
+  "seated-row": {
+    "cues": ["Torso alto y fijo", "Jala hacia la parte alta del abdomen con los codos abiertos", "Junta las escápulas al final", "Enfócate en la espalda alta"],
+    "musculo": "Espalda alta (romboides y trapecio medio)",
+    "error": "Balancear el torso hacia atrás",
+    "revisado": false
+  },
+  "close-grip-cable-row": {
+    "cues": ["Agarre cerrado (V), espalda neutra", "Jala hacia el ombligo con los codos pegados", "Aprieta la espalda al final", "Estira al regresar sin redondear la espalda"],
+    "musculo": "Dorsal y espalda media",
+    "error": "Redondear la espalda baja al estirar",
+    "revisado": false
+  },
+  "wide-grip-cable-row": {
+    "cues": ["Barra ancha, agarre más abierto que los hombros", "Jala hacia la parte baja del pecho con codos abiertos", "Junta las escápulas", "Torso quieto"],
+    "musculo": "Espalda alta y deltoides posterior",
+    "error": "Encoger los hombros al jalar",
+    "revisado": false
+  },
+  "t-bar-row": {
+    "cues": ["Cadera atrás, espalda neutra, torso inclinado", "Jala hacia el abdomen", "Codos cerca del cuerpo", "Controla la bajada sin perder la postura"],
+    "musculo": "Espalda media y dorsal",
+    "error": "Levantar el torso para usar más peso",
+    "revisado": false
+  },
+
+  "cable-ez-bar-curl": {
+    "cues": ["Codos pegados a los costados", "Sube la barra sin mover los codos al frente", "Aprieta arriba y baja lento", "Tensión constante gracias a la polea"],
+    "musculo": "Bíceps",
+    "error": "Balancear el cuerpo para subir",
+    "revisado": false
+  },
+  "seated-cable-preacher-curl": {
+    "cues": ["Brazos bien apoyados en el cojín", "Baja casi hasta estirar el brazo, con control", "Sube sin despegar los codos", "Pausa arriba un segundo"],
+    "musculo": "Bíceps (porción corta)",
+    "error": "Dejar caer el peso al final del recorrido",
+    "revisado": false
+  },
+  "bayesian-cable-curl": {
+    "cues": ["De espaldas a la polea baja, un paso al frente", "El brazo queda detrás del torso, estirando el bíceps", "Haz el curl sin que el codo avance", "Baja lento hasta el estiramiento completo"],
+    "musculo": "Bíceps (porción larga)",
+    "error": "Llevar el codo hacia adelante al subir",
+    "revisado": false
+  },
+  "farmers-carry": {
+    "cues": ["Mancuernas pesadas a los costados", "Hombros abajo y atrás, pecho alto", "Pasos cortos y firmes", "Abdomen apretado, sin inclinarte"],
+    "musculo": "Antebrazo (agarre) y core",
+    "error": "Dejar que los hombros se encorven hacia adelante",
+    "revisado": false
+  },
+  "dumbbell-wrist-curl": {
+    "cues": ["Antebrazos apoyados en los muslos o en el banco", "Palmas hacia arriba, solo se mueve la muñeca", "Baja dejando rodar la mancuerna a los dedos", "Sube apretando"],
+    "musculo": "Flexores del antebrazo",
+    "error": "Levantar los antebrazos del apoyo",
+    "revisado": false
+  },
+  "reverse-ez-bar-curl": {
+    "cues": ["Agarre prono (palmas hacia abajo)", "Codos fijos a los costados", "Muñecas rectas durante todo el movimiento", "Baja controlado"],
+    "musculo": "Braquiorradial y extensores del antebrazo",
+    "error": "Doblar las muñecas hacia abajo",
+    "revisado": false
+  },
+
+  "horizontal-leg-press": {
+    "cues": ["Espalda y cadera pegadas al respaldo", "Pies a la anchura de la cadera en la plataforma", "Baja hasta que las rodillas lleguen a unos 90° o más", "No bloquees las rodillas arriba"],
+    "musculo": "Cuádriceps",
+    "error": "Despegar la cadera del asiento al bajar",
+    "revisado": false
+  },
+  "barbell-squat": {
+    "cues": ["Barra sobre la espalda alta, pies a la anchura de los hombros", "Rompe con cadera y rodillas al mismo tiempo", "Rodillas en la dirección de las puntas", "Baja al menos a paralelo y sube con el pecho alto"],
+    "musculo": "Cuádriceps y glúteo",
+    "error": "Dejar que las rodillas se vayan hacia adentro",
+    "revisado": false
+  },
+  "leg-extension": {
+    "cues": ["Rodilla alineada con el eje de la máquina", "Extiende por completo y aprieta arriba", "Baja lento, sin dejar caer el peso"],
+    "musculo": "Cuádriceps",
+    "error": "Usar impulso y despegar la cadera del asiento",
+    "revisado": false
+  },
+  "calf-raise": {
+    "cues": ["Punta del pie en el borde, talones libres", "Baja hasta sentir el estiramiento", "Sube lo más alto posible y pausa", "Rodillas rectas pero no bloqueadas"],
+    "musculo": "Gastrocnemio (pantorrilla)",
+    "error": "Rebotar abajo y acortar el rango",
+    "revisado": false
+  },
+  "hip-abduction": {
+    "cues": ["Espalda pegada al respaldo", "Abre las piernas controlando el movimiento", "Pausa afuera y regresa lento", "Inclinarte un poco al frente enfoca más el glúteo"],
+    "musculo": "Glúteo medio",
+    "error": "Dejar que las placas choquen al regresar",
+    "revisado": false
+  },
+  "bulgarian-split-squat": {
+    "cues": ["Pie trasero sobre el banco", "Baja recto hacia abajo, torso ligeramente inclinado", "Rodilla de enfrente sobre el pie, sin irse hacia adentro", "Empuja con el talón de enfrente"],
+    "musculo": "Cuádriceps y glúteo",
+    "error": "Paso demasiado corto, que sobrecarga la rodilla",
+    "revisado": false
+  },
+  "seated-leg-curl": {
+    "cues": ["Rodilla alineada con el eje de la máquina", "Ajusta el rodillo arriba de los tobillos", "Flexiona lo más posible y pausa", "Regresa lento"],
+    "musculo": "Isquiotibiales",
+    "error": "Levantar la cadera del asiento",
+    "revisado": false
+  },
+  "rdl": {
+    "cues": ["Rodillas ligeramente flexionadas y fijas", "Lleva la cadera hacia atrás con la espalda neutra", "Barra pegada a las piernas", "Baja hasta sentir el estiramiento en isquios"],
+    "musculo": "Isquiotibiales y glúteo",
+    "error": "Redondear la espalda baja",
+    "revisado": false
+  },
+  "hack-squat": {
+    "cues": ["Espalda pegada al respaldo", "Pies a la anchura de los hombros", "Baja controlado lo más profundo que puedas sin despegar la espalda", "Empuja con todo el pie"],
+    "musculo": "Cuádriceps",
+    "error": "Despegar los talones de la plataforma",
+    "revisado": false
+  },
+
+  "dumbbell-row": {
+    "cues": ["Mano y rodilla apoyadas en el banco, espalda plana", "Jala la mancuerna hacia la cadera", "Codo cerca del cuerpo", "Estira por completo al bajar"],
+    "musculo": "Dorsal",
+    "error": "Girar el torso para subir el peso",
+    "revisado": false
+  },
+  "ez-bar-curl": {
+    "cues": ["Codos pegados a los costados", "Sube sin balancear el cuerpo", "Aprieta arriba", "Baja controlado hasta casi estirar"],
+    "musculo": "Bíceps",
+    "error": "Usar la espalda para subir la barra",
+    "revisado": false
+  },
+  "machine-supported-hammer-curl": {
+    "cues": ["Brazos bien apoyados en el soporte", "Agarre neutro (pulgares hacia arriba)", "Sube sin despegar los codos", "Baja lento"],
+    "musculo": "Braquial y braquiorradial",
+    "error": "Acortar el rango al bajar",
+    "revisado": false
+  },
+  "single-arm-cuffed-lateral-raise": {
+    "cues": ["Brazalete en la muñeca, polea baja del lado contrario", "Sube el brazo hacia el costado hasta la altura del hombro", "Codo ligeramente flexionado", "Baja lento, manteniendo tensión"],
+    "musculo": "Deltoides medio",
+    "error": "Encoger el hombro o inclinar el torso",
+    "revisado": false
+  },
+  "y-raise": {
+    "cues": ["Acostado boca abajo en banco inclinado", "Sube los brazos formando una Y", "Pulgares hacia arriba", "Peso ligero, sin encoger los hombros"],
+    "musculo": "Trapecio inferior y deltoides posterior",
+    "error": "Despegar el pecho del banco",
+    "revisado": false
+  },
+  "cable-tricep-pushdown": {
+    "cues": ["Codos pegados al cuerpo", "Extiende por completo abajo", "Sube controlado sin mover los codos"],
+    "musculo": "Tríceps",
+    "error": "Inclinarse y empujar con el peso del cuerpo",
+    "revisado": false
+  },
+  "katana-extension": {
+    "cues": ["Polea baja, toma el cable cruzando el cuerpo", "Lleva la mano por encima del hombro contrario, como sacando una espada", "Extiende el brazo arriba y en diagonal", "Codo apuntando al frente"],
+    "musculo": "Tríceps (cabeza larga)",
+    "error": "Mover el hombro en lugar del codo",
+    "revisado": false
+  },
+
+  "weighted-lunges-in-place": {
+    "cues": ["Mancuernas a los costados, torso erguido", "Baja la rodilla de atrás casi al piso", "Rodilla de enfrente alineada con el pie", "Empuja con el talón para subir"],
+    "musculo": "Cuádriceps y glúteo",
+    "error": "Paso demasiado corto",
+    "revisado": false
+  },
+  "sissy-squat": {
+    "cues": ["Apóyate en algo estable o usa la máquina", "Talones arriba, lleva las rodillas al frente", "Cadera extendida: rodillas, cadera y hombros en línea", "Baja solo lo que tus rodillas toleren"],
+    "musculo": "Cuádriceps",
+    "error": "Doblar la cadera, que lo convierte en sentadilla normal",
+    "revisado": false
+  },
+  "box-squat": {
+    "cues": ["Siéntate atrás en el cajón con control, sin dejarte caer", "Pausa breve sin relajar el abdomen", "Espinillas casi verticales", "Sube explosivo empujando el piso"],
+    "musculo": "Glúteo, isquios y cuádriceps",
+    "error": "Rebotar o perder la tensión sobre el cajón",
+    "revisado": false
+  },
+  "seated-calf-raise": {
+    "cues": ["Rodillas bajo el cojín, puntas en la plataforma", "Baja hasta el estiramiento completo", "Sube lo más alto posible y pausa", "Ritmo lento"],
+    "musculo": "Sóleo (pantorrilla)",
+    "error": "Rebotar abajo",
+    "revisado": false
+  }
+}

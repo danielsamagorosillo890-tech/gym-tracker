@@ -37,6 +37,8 @@ export interface Exercise {
   restSec: number | null;
   notes: string;
   machineSettings: string;
+  /** Present once the user edits or reviews the technique text. */
+  technique?: TechniqueText;
 }
 
 export interface Day {
@@ -130,3 +132,21 @@ export const DEFAULT_SETTINGS: Settings = {
   notificationsAsked: false,
   firstDataAt: null,
 };
+
+/** User-edited technique text; overrides the bundled draft in cues.es-MX.json. */
+export interface TechniqueText {
+  cues: string[];
+  muscle: string;
+  mistake: string;
+  reviewed: boolean;
+}
+
+/** Photo, GIF or video the user uploads for an exercise (kept only on this device). */
+export interface UserMedia {
+  id: number;
+  exerciseId: string;
+  kind: 'image' | 'video';
+  mime: string;
+  blob: Blob;
+  createdAt: number;
+}

@@ -1,0 +1,262 @@
+{
+  "source": "free-exercise-db (The Unlicense)",
+  "generatedAt": "2026-11-10",
+  "items": {
+    "band-pull-aparts": {
+      "frames": [
+        "media/band-pull-aparts-0.webp",
+        "media/band-pull-aparts-1.webp"
+      ],
+      "sourceName": "Band Pull Apart",
+      "sourceId": "Band_Pull_Apart"
+    },
+    "arm-circles": {
+      "frames": [
+        "media/arm-circles-0.webp",
+        "media/arm-circles-1.webp"
+      ],
+      "sourceName": "Arm Circles",
+      "sourceId": "Arm_Circles"
+    },
+    "assisted-pull-ups": {
+      "frames": [
+        "media/assisted-pull-ups-0.webp",
+        "media/assisted-pull-ups-1.webp"
+      ],
+      "sourceName": "Band Assisted Pull-Up",
+      "sourceId": "Band_Assisted_Pull-Up"
+    },
+    "bench-press": {
+      "frames": [
+        "media/bench-press-0.webp",
+        "media/bench-press-1.webp"
+      ],
+      "sourceName": "Barbell Bench Press - Medium Grip",
+      "sourceId": "Barbell_Bench_Press_-_Medium_Grip"
+    },
+    "incline-dumbbell-press": {
+      "frames": [
+        "media/incline-dumbbell-press-0.webp",
+        "media/incline-dumbbell-press-1.webp"
+      ],
+      "sourceName": "Incline Dumbbell Press",
+      "sourceId": "Incline_Dumbbell_Press"
+    },
+    "smith-machine-military-press": {
+      "frames": [
+        "media/smith-machine-military-press-0.webp",
+        "media/smith-machine-military-press-1.webp"
+      ],
+      "sourceName": "Smith Machine Overhead Shoulder Press",
+      "sourceId": "Smith_Machine_Overhead_Shoulder_Press"
+    },
+    "dumbbell-shoulder-press": {
+      "frames": [
+        "media/dumbbell-shoulder-press-0.webp",
+        "media/dumbbell-shoulder-press-1.webp"
+      ],
+      "sourceName": "Dumbbell Shoulder Press",
+      "sourceId": "Dumbbell_Shoulder_Press"
+    },
+    "reverse-tricep-pushdown": {
+      "frames": [
+        "media/reverse-tricep-pushdown-0.webp",
+        "media/reverse-tricep-pushdown-1.webp"
+      ],
+      "sourceName": "Reverse Grip Triceps Pushdown",
+      "sourceId": "Reverse_Grip_Triceps_Pushdown"
+    },
+    "rope-pushdown": {
+      "frames": [
+        "media/rope-pushdown-0.webp",
+        "media/rope-pushdown-1.webp"
+      ],
+      "sourceName": "Triceps Pushdown - Rope Attachment",
+      "sourceId": "Triceps_Pushdown_-_Rope_Attachment"
+    },
+    "close-grip-lat-pulldown": {
+      "frames": [
+        "media/close-grip-lat-pulldown-0.webp",
+        "media/close-grip-lat-pulldown-1.webp"
+      ],
+      "sourceName": "Close-Grip Front Lat Pulldown",
+      "sourceId": "Close-Grip_Front_Lat_Pulldown"
+    },
+    "wide-grip-lat-pulldown": {
+      "frames": [
+        "media/wide-grip-lat-pulldown-0.webp",
+        "media/wide-grip-lat-pulldown-1.webp"
+      ],
+      "sourceName": "Wide-Grip Lat Pulldown",
+      "sourceId": "Wide-Grip_Lat_Pulldown"
+    },
+    "close-grip-cable-row": {
+      "frames": [
+        "media/close-grip-cable-row-0.webp",
+        "media/close-grip-cable-row-1.webp"
+      ],
+      "sourceName": "Seated Cable Rows",
+      "sourceId": "Seated_Cable_Rows"
+    },
+    "t-bar-row": {
+      "frames": [
+        "media/t-bar-row-0.webp",
+        "media/t-bar-row-1.webp"
+      ],
+      "sourceName": "T-Bar Row with Handle",
+      "sourceId": "T-Bar_Row_with_Handle"
+    },
+    "cable-ez-bar-curl": {
+      "frames": [
+        "media/cable-ez-bar-curl-0.webp",
+        "media/cable-ez-bar-curl-1.webp"
+      ],
+      "sourceName": "Standing Biceps Cable Curl",
+      "sourceId": "Standing_Biceps_Cable_Curl"
+    },
+    "seated-cable-preacher-curl": {
+      "frames": [
+        "media/seated-cable-preacher-curl-0.webp",
+        "media/seated-cable-preacher-curl-1.webp"
+      ],
+      "sourceName": "Cable Preacher Curl",
+      "sourceId": "Cable_Preacher_Curl"
+    },
+    "farmers-carry": {
+      "frames": [
+        "media/farmers-carry-0.webp",
+        "media/farmers-carry-1.webp"
+      ],
+      "sourceName": "Farmer's Walk",
+      "sourceId": "Farmers_Walk"
+    },
+    "dumbbell-wrist-curl": {
+      "frames": [
+        "media/dumbbell-wrist-curl-0.webp",
+        "media/dumbbell-wrist-curl-1.webp"
+      ],
+      "sourceName": "Seated Dumbbell Palms-Up Wrist Curl",
+      "sourceId": "Seated_Dumbbell_Palms-Up_Wrist_Curl"
+    },
+    "reverse-ez-bar-curl": {
+      "frames": [
+        "media/reverse-ez-bar-curl-0.webp",
+        "media/reverse-ez-bar-curl-1.webp"
+      ],
+      "sourceName": "Reverse Barbell Curl",
+      "sourceId": "Reverse_Barbell_Curl"
+    },
+    "barbell-squat": {
+      "frames": [
+        "media/barbell-squat-0.webp",
+        "media/barbell-squat-1.webp"
+      ],
+      "sourceName": "Barbell Squat",
+      "sourceId": "Barbell_Squat"
+    },
+    "leg-extension": {
+      "frames": [
+        "media/leg-extension-0.webp",
+        "media/leg-extension-1.webp"
+      ],
+      "sourceName": "Leg Extensions",
+      "sourceId": "Leg_Extensions"
+    },
+    "calf-raise": {
+      "frames": [
+        "media/calf-raise-0.webp",
+        "media/calf-raise-1.webp"
+      ],
+      "sourceName": "Standing Calf Raises",
+      "sourceId": "Standing_Calf_Raises"
+    },
+    "hip-abduction": {
+      "frames": [
+        "media/hip-abduction-0.webp",
+        "media/hip-abduction-1.webp"
+      ],
+      "sourceName": "Thigh Abductor",
+      "sourceId": "Thigh_Abductor"
+    },
+    "seated-leg-curl": {
+      "frames": [
+        "media/seated-leg-curl-0.webp",
+        "media/seated-leg-curl-1.webp"
+      ],
+      "sourceName": "Seated Leg Curl",
+      "sourceId": "Seated_Leg_Curl"
+    },
+    "rdl": {
+      "frames": [
+        "media/rdl-0.webp",
+        "media/rdl-1.webp"
+      ],
+      "sourceName": "Romanian Deadlift",
+      "sourceId": "Romanian_Deadlift"
+    },
+    "hack-squat": {
+      "frames": [
+        "media/hack-squat-0.webp",
+        "media/hack-squat-1.webp"
+      ],
+      "sourceName": "Hack Squat",
+      "sourceId": "Hack_Squat"
+    },
+    "dumbbell-row": {
+      "frames": [
+        "media/dumbbell-row-0.webp",
+        "media/dumbbell-row-1.webp"
+      ],
+      "sourceName": "One-Arm Dumbbell Row",
+      "sourceId": "One-Arm_Dumbbell_Row"
+    },
+    "ez-bar-curl": {
+      "frames": [
+        "media/ez-bar-curl-0.webp",
+        "media/ez-bar-curl-1.webp"
+      ],
+      "sourceName": "EZ-Bar Curl",
+      "sourceId": "EZ-Bar_Curl"
+    },
+    "cable-tricep-pushdown": {
+      "frames": [
+        "media/cable-tricep-pushdown-0.webp",
+        "media/cable-tricep-pushdown-1.webp"
+      ],
+      "sourceName": "Triceps Pushdown",
+      "sourceId": "Triceps_Pushdown"
+    },
+    "weighted-lunges-in-place": {
+      "frames": [
+        "media/weighted-lunges-in-place-0.webp",
+        "media/weighted-lunges-in-place-1.webp"
+      ],
+      "sourceName": "Dumbbell Lunges",
+      "sourceId": "Dumbbell_Lunges"
+    },
+    "sissy-squat": {
+      "frames": [
+        "media/sissy-squat-0.webp",
+        "media/sissy-squat-1.webp"
+      ],
+      "sourceName": "Weighted Sissy Squat",
+      "sourceId": "Weighted_Sissy_Squat"
+    },
+    "box-squat": {
+      "frames": [
+        "media/box-squat-0.webp",
+        "media/box-squat-1.webp"
+      ],
+      "sourceName": "Box Squat",
+      "sourceId": "Box_Squat"
+    },
+    "seated-calf-raise": {
+      "frames": [
+        "media/seated-calf-raise-0.webp",
+        "media/seated-calf-raise-1.webp"
+      ],
+      "sourceName": "Seated Calf Raise",
+      "sourceId": "Seated_Calf_Raise"
+    }
+  }
+}

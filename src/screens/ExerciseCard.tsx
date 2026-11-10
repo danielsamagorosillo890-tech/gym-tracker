@@ -6,7 +6,10 @@ import { suggestProgression } from '../logic/progression';
 import { findPRs } from '../logic/records';
 import { resolveExerciseId } from '../logic/swap';
 import { fmtNum, fromKg, toKg } from '../logic/units';
-import { IconMore, IconPlay } from '../ui/icons';
+import { IconMore } from '../ui/icons';
+import { techniqueFor } from '../data/technique';
+import { TechniqueMedia } from './technique/TechniqueMedia';
+import { TechniqueSheet } from './technique/TechniqueSheet';
 import { useRestTimer } from '../ui/RestTimer';
 import { ExerciseMenu } from './ExerciseMenu';
 import { SetRow, type RowView } from './SetRow';
@@ -71,6 +74,7 @@ export function ExerciseCard({
   const nextName = nextLabel;
   const timer = useRestTimer();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [techOpen, setTechOpen] = useState(false);
   const exId = resolveExerciseId(slot, session);
   const ex = exercises.get(exId);
 
@@ -165,9 +169,9 @@ export function ExerciseCard({
 
   const refDay = prefill.reference ? days.find((d) => d.id === slots.find((s) => s.id === prefill.reference!.slotId)?.dayId) : null;
   const swapped = exId !== slot.exerciseId;
-  const yt = `https://www.youtube.com/results?search_query=${encodeURIComponent(`${ex.name} técnica`)}`;
   const doneCount = stored.filter((s) => s.completed).length;
 
+  const tech = techniqueFor(ex);
   const complete = doneCount >= slot.sets;
   const hasInfo = prefill.source !== 'none' || !!progression;
 
@@ -188,15 +192,16 @@ export function ExerciseCard({
         {swapped && <span className="tag">cambio de hoy</span>}
       </p>
 
-      <a className="technique" href={yt} target="_blank" rel="noopener noreferrer">
-        <span className="technique-icon">
-          <IconPlay size={28} />
+      <button className="technique" onClick={() => setTechOpen(true)} aria-label={`Ver técnica de ${ex.name}`}>
+        <TechniqueMedia exerciseId={ex.id} name={ex.name} size="thumb" />
+        <span className="technique-text">
+          <strong>Técnica</strong>
+          <small>
+            {tech ? `${tech.cues.length} indicaciones · ${tech.reviewed ? 'revisado' : 'borrador'}` : 'Sin indicaciones'}
+          </small>
+          {tech && <small className="technique-muscle">{tech.muscle}</small>}
         </span>
-        <span>
-          <strong>Ver técnica en YouTube</strong>
-          <small>Las fotos de técnica llegan en la Fase 3</small>
-        </span>
-      </a>
+      </button>
 
       {(ex.machineSettings || ex.notes) && (
         <button className="info-block notes" onClick={() => setMenuOpen(true)}>
@@ -287,6 +292,7 @@ export function ExerciseCard({
         </button>
       )}
 
+      {techOpen && <TechniqueSheet exercise={ex} onClose={() => setTechOpen(false)} />}
       {menuOpen && (
         <ExerciseMenu
           slot={slot}

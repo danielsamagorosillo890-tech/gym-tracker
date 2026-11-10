@@ -1,7 +1,7 @@
 import { db } from './db';
 import { fixSwap } from '../logic/swap';
 import { copyVariant, moveSlot, newSlotId, slugify } from '../logic/routine';
-import { DEFAULT_SETTINGS, type Exercise, type SetLog, type Settings, type Slot, type Variant } from './types';
+import { DEFAULT_SETTINGS, type Exercise, type SetLog, type Settings, type Slot, type TechniqueText, type Variant } from './types';
 import { requestPersist } from '../storage';
 
 export async function getSettings(): Promise<Settings> {
@@ -280,4 +280,23 @@ export async function updateSetLog(id: number, patch: Partial<Pick<SetLog, 'kg' 
 
 export async function deleteSetLog(id: number): Promise<void> {
   await db.setLogs.delete(id);
+}
+
+// ---- Technique (Phase 3) ----
+
+export async function saveTechnique(exerciseId: string, technique: TechniqueText): Promise<void> {
+  await db.exercises.update(exerciseId, { technique });
+}
+
+/** Replaces the user's visual for an exercise (one per exercise). */
+export async function setUserMedia(exerciseId: string, file: File): Promise<void> {
+  const kind = file.type.startsWith('video/') ? 'video' : 'image';
+  await db.transaction('rw', db.userMedia, async () => {
+    await db.userMedia.where({ exerciseId }).delete();
+    await db.userMedia.add({ exerciseId, kind, mime: file.type, blob: file, createdAt: Date.now() } as never);
+  });
+}
+
+export async function removeUserMedia(exerciseId: string): Promise<void> {
+  await db.userMedia.where({ exerciseId }).delete();
 }

@@ -3,6 +3,7 @@ import { toggleWarmup } from '../data/actions';
 import type { Exercise, Session, Slot, WarmupCheck } from '../data/types';
 import { IconCheck } from '../ui/icons';
 import { fmtClock } from '../ui/RestTimer';
+import { TechniqueSheet } from './technique/TechniqueSheet';
 
 function target(slot: Slot, ex: Exercise | undefined): string {
   const side = ex?.perSide ? ' por lado' : '';
@@ -53,6 +54,8 @@ export function WarmupStep({
   const doneIds = new Set(checks.filter((c) => c.done).map((c) => c.slotId));
   const done = slots.filter((s) => doneIds.has(s.id)).length;
   const [running, setRunning] = useState<string | null>(null);
+  const [techId, setTechId] = useState<string | null>(null);
+  const techEx = techId ? exercises.get(techId) : undefined;
 
   const set = async (slotId: string, value: boolean) => {
     const sid = await ensureSession();
@@ -80,6 +83,13 @@ export function WarmupStep({
                   {target(slot, ex) && <span className="warm-target">{target(slot, ex)}</span>}
                 </span>
               </button>
+              <button
+                className="icon-btn info-btn"
+                onClick={() => ex && setTechId(ex.id)}
+                aria-label={`Técnica de ${ex?.name ?? slot.exerciseId}`}
+              >
+                ?
+              </button>
               {slot.seconds && !isDone && (
                 <button
                   className="btn secondary small timer-btn"
@@ -103,6 +113,8 @@ export function WarmupStep({
           );
         })}
       </ul>
+
+      {techEx && <TechniqueSheet exercise={techEx} onClose={() => setTechId(null)} />}
 
       <button className={`btn ${done === slots.length ? 'primary' : 'secondary'} next-cta`} onClick={onNext}>
         {done === slots.length ? `Empezar: ${nextName}` : 'Saltar al primer ejercicio'}

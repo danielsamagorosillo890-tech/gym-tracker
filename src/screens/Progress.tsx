@@ -132,11 +132,17 @@ function ExerciseProgress({
   onBack: () => void;
 }) {
   const [range, setRange] = useState<Range>('12w');
-  const [dayFilter, setDayFilter] = useState<string | null>(null);
-  const [table, setTable] = useState(false);
   const all = exerciseSets(logs, sessions, ex.id);
   const sessionDay = new Map(sessions.map((s) => [s.id, s.dayId]));
   const dayIds = [...new Set(all.map((l) => sessionDay.get(l.sessionId)!))];
+  // Same exercise on several days usually means different rep ranges (Bench 8-10 vs 15-20):
+  // start on the day of the latest session so the chart compares like with like.
+  const [dayFilter, setDayFilter] = useState<string | null>(() => {
+    if (dayIds.length < 2) return null;
+    const latest = all.reduce((a, b) => (b.at > a.at ? b : a));
+    return sessionDay.get(latest.sessionId) ?? null;
+  });
+  const [table, setTable] = useState(false);
   const filtered = dayFilter ? all.filter((l) => sessionDay.get(l.sessionId) === dayFilter) : all;
   const from = rangeStart(range, Date.now());
   const points = sessionPoints(filtered, sessions, ex.metric).filter((p) => p.t >= from);

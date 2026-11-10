@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useMemo, useState } from 'react';
-import { deleteSession, deleteSetLog, updateSession, updateSetLog } from '../data/actions';
+import { addPastSet, deleteSession, deleteSetLog, updateSession, updateSetLog } from '../data/actions';
 import { db } from '../data/db';
 import type { Exercise, Session, SetLog, Slot } from '../data/types';
 import { findPRs, withoutDeload } from '../logic/records';
@@ -165,6 +165,9 @@ function SessionDetail({
           {g.sets.map((l, i) => (
             <HistoryRow key={l.id} n={i + 1} log={l} ex={g.ex} isPR={prIds.has(l.id)} />
           ))}
+          <button className="btn secondary small add-btn" onClick={() => addPastSet(g.sets[g.sets.length - 1])}>
+            + serie olvidada
+          </button>
         </section>
       ))}
 

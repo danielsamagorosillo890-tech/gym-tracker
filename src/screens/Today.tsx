@@ -114,7 +114,7 @@ function Stats({ s }: { s: Summary }) {
   );
 }
 
-export function Today() {
+export function Today({ onDefineVariant }: { onDefineVariant: (dayId: string, variant: Variant) => void }) {
   const days = useLiveQuery(() => db.days.orderBy('order').toArray());
   const slots = useLiveQuery(() => db.slots.toArray());
   const exList = useLiveQuery(() => db.exercises.toArray());
@@ -323,7 +323,6 @@ export function Today() {
           <h2 className="day-title">{day.name}</h2>
           <p className="muted">
             Semana {requested} · {current ? 'en curso' : draft ? 'elegido a mano' : 'sigue en tu ciclo'}
-            {eff.fellBack ? ` · B sin ejercicios, se usa A` : ''}
           </p>
         </div>
         <div className="segmented" role="group" aria-label="Semana">
@@ -337,6 +336,17 @@ export function Today() {
           <IconMore />
         </button>
       </section>
+
+      {eff.fellBack && (
+        <div className="banner">
+          <span>
+            {day.name} {requested} aún no tiene ejercicios; hoy se usa la A.
+          </span>
+          <button className="btn secondary small" onClick={() => onDefineVariant(day.id, requested)}>
+            Definir {requested}
+          </button>
+        </div>
+      )}
 
       {isDeload && (
         <p className="note">Semana de descarga: la mitad de series y alrededor de 60% del peso. No cuenta para progresión ni PRs.</p>

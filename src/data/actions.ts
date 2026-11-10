@@ -348,3 +348,18 @@ export async function startDeload(days = 7): Promise<void> {
 export async function endDeload(): Promise<void> {
   await updateSettings({ deloadUntil: null });
 }
+
+/** Adds a forgotten set to a past session, copying the last set of that exercise. */
+export async function addPastSet(template: SetLog): Promise<void> {
+  await db.transaction('rw', db.setLogs, async () => {
+    const same = await db.setLogs
+      .where({ sessionId: template.sessionId })
+      .filter((l) => l.slotId === template.slotId && l.exerciseId === template.exerciseId)
+      .toArray();
+    const index = Math.max(...same.map((l) => l.index)) + 1;
+    const at = Math.max(...same.map((l) => l.at)) + 1000;
+    const { id: _ignored, ...rest } = template;
+    void _ignored;
+    await db.setLogs.add({ ...rest, index, at, completed: true } as SetLog);
+  });
+}

@@ -20,7 +20,7 @@ const BASIS = { total: 'peso total', dumbbell: 'por mancuerna', stack: 'pila' };
 
 type Editing = { slot: Slot; isNew: boolean } | null;
 
-export function Routine() {
+export function Routine({ initial }: { initial?: { dayId: string; variant: Variant } | null }) {
   const days = useLiveQuery(() => db.days.orderBy('order').toArray());
   const slots = useLiveQuery(() => db.slots.toArray());
   const exList = useLiveQuery(() => db.exercises.toArray());
@@ -38,14 +38,24 @@ export function Routine() {
           Catálogo
         </button>
       </div>
-      {mode === 'days' ? <DaysView days={days} slots={slots} exercises={exercises} /> : <CatalogView exercises={exercises} slots={slots} days={days} />}
+      {mode === 'days' ? <DaysView days={days} slots={slots} exercises={exercises} initial={initial ?? null} /> : <CatalogView exercises={exercises} slots={slots} days={days} />}
     </div>
   );
 }
 
-function DaysView({ days, slots, exercises }: { days: Day[]; slots: Slot[]; exercises: Map<string, Exercise> }) {
-  const [dayId, setDayId] = useState(days[0]?.id ?? 'push');
-  const [variant, setVariant] = useState<Variant>('A');
+function DaysView({
+  days,
+  slots,
+  exercises,
+  initial,
+}: {
+  days: Day[];
+  slots: Slot[];
+  exercises: Map<string, Exercise>;
+  initial: { dayId: string; variant: Variant } | null;
+}) {
+  const [dayId, setDayId] = useState(initial?.dayId ?? days[0]?.id ?? 'push');
+  const [variant, setVariant] = useState<Variant>(initial?.variant ?? 'A');
   const [sorting, setSorting] = useState(false);
   const [editing, setEditing] = useState<Editing>(null);
   const [adding, setAdding] = useState<{ block: Slot['block']; week: Slot['week'] } | null>(null);

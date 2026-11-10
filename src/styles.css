@@ -12,6 +12,7 @@
   --pr-text: #2b1d00;
   --warn: #fbbf24;
   --danger: #f87171;
+  --danger-text: #2a0707;
   --border: #30353d;
   --radius: 14px;
   --nav-h: 64px;
@@ -35,6 +36,7 @@
   --pr-text: #ffffff;
   --warn: #92400e;
   --danger: #b91c1c;
+  --danger-text: #ffffff;
   --border: #d3d8de;
   --series-1: #047857;
   --series-2: #2a78d6;
@@ -235,7 +237,7 @@ h4 {
 
 .btn.danger {
   background: var(--danger);
-  color: #fff;
+  color: var(--danger-text);
 }
 
 .btn:disabled {
@@ -1896,4 +1898,14 @@ button.technique {
 
 input[type='date'].text-input {
   color-scheme: inherit;
+}
+
+/* Error boundary */
+.crash {
+  border-color: var(--danger);
+}
+
+.mono {
+  font-family: ui-monospace, monospace;
+  word-break: break-word;
 }
